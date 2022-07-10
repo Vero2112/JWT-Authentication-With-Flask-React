@@ -55,7 +55,7 @@ def signup():
     # verificar usuario
     aux_user = User.query.filter_by(email=email).first()
     if aux_user:
-        raise APIException("el usuario yan existe", status_code=404)
+        raise APIException("el usuario ya existe", status_code=404)
 
     user = User(email=email, password=password, is_active=True)
     db.session.add(user)
@@ -102,13 +102,19 @@ def login():
     return jsonify(res), 201
 
 # Obtener todas las tareas
-@api.route('/task', methods=['GET'])
+@api.route('/task/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_task():
     data = get_jwt_identity()     
-    user_id = data["user_id"]  
+    # user_id = data["user_id"]  
+    user = User.query.get(user_id)
+
     # tasks = Task.query.all() ARREGLO
 
+    user = User.query.get(user_id)
+ 
+    if user is None:
+        raise APIException("el usuario no existe", status_code=404)
 
     # mapear, como primera entrada una funcion lambda que cada iteración va a ser un task, en este task voy 
     # a llamar a funcion serialize, luego le voy a decir con quien va a iterarse. 

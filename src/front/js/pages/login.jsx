@@ -13,8 +13,8 @@ export const Login = () => {
 
   const updateText = (e, setState) => {
     const value = e.target.value;
-    console.log("Soy el value")
-    console.log(value)
+    // console.log("Soy el value")
+    // console.log(value)
     setState(value);
   };
 
@@ -41,7 +41,38 @@ export const Login = () => {
       localStorage.setItem("token", data.token)
       // data.user_id
       // navegar para /user/id
-      // Navigate(`/user/${data.user_id}`);
+      navigate(`/user/${data.user_id}`);
+      // navigate(`/learnmore}`);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+  };
+
+  const onSaveUser = () => {
+    
+    const body = JSON.stringify({
+      email,
+      password,
+
+    });
+
+    fetch(`${config.api.hostname}/api/signup`, {
+      method:"POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      console.log({data});
+      // localStorage.setItem("token", data.token)
+      // data.user_id
+      // navegar para /user/id
+      navigate(`/signup`);
     })
     .catch((e) => {
       console.error(e);
@@ -90,9 +121,10 @@ export const Login = () => {
           Iniciar sesión
           </button>
         {/* </Link> */}
-          <button type="submit" className="btn btn-primary mb-3 m-3">
+        <Link to="/signup">
+          <button type="submit" className="btn btn-primary mb-3 m-3" onClick={onSaveUser}>
             Crear usuario
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>
