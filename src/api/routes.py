@@ -102,14 +102,17 @@ def login():
     return jsonify(res), 201
 
 # Obtener todas las tareas
-@api.route('/task', methods=['GET'])
+@api.route('/task/<int:user_id>', methods=['GET'])
 @jwt_required()
 def get_task():
     data = get_jwt_identity()     
-    user_id = data["user_id"]  
+    # user_id = data["user_id"]  
     # user = User.query.get(user_id)
 
     # tasks = Task.query.all() ARREGLO
+
+    # if user_id != data["user_id"]:
+    #     raise APIException("No eres el usuario registrado!", status_code=404)
 
     user = User.query.get(user_id)
  

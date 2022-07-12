@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState,  } from "react";
 import config from "../config.js";
 import { Context } from "../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../styles/home.css";
 
 export const Learnmore = () => {
@@ -11,12 +11,13 @@ export const Learnmore = () => {
   const navigate = useNavigate()
 
 useEffect (() => {
+      const {id} = useParams()
         const token = localStorage.getItem(config.jwt.nameToken);
       if (!token) {
         navigate("/login");
         }
 
-      fetch(`${config.api.hostname}/api/task`, {
+      fetch(`${config.api.hostname}/api/task/${id}`, {
         method:"GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -24,7 +25,9 @@ useEffect (() => {
           
           })
           .then((res) => {
-            return res.json();
+            if (res.status !== 200) {
+              navigate ("/login");
+            return }
           })
           .then((array) => {
             setLoading(true)
@@ -53,7 +56,8 @@ useEffect (() => {
       {tasks.map((task) => {
         return (<div key={task.id}>
         <h3>{task.text}</h3>
-        <h3>{task.done}</h3></div>);
+        <h3>{task.done}</h3>
+        </div>);
       })}
             {/* <button
         type="submit"
