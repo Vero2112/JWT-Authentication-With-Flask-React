@@ -30,7 +30,7 @@ def handle_hello():
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
-@api.route('/learnmore', methods=['POST', 'GET'])
+@api.route('/user', methods=['POST', 'GET'])
 def learnmore():
 
     response_body = {
@@ -102,12 +102,12 @@ def login():
     return jsonify(res), 201
 
 # Obtener todas las tareas
-@api.route('/task/<int:user_id>', methods=['GET'])
+@api.route('/task', methods=['GET'])
 @jwt_required()
 def get_task():
     data = get_jwt_identity()     
-    # user_id = data["user_id"]  
-    user = User.query.get(user_id)
+    user_id = data["user_id"]  
+    # user = User.query.get(user_id)
 
     # tasks = Task.query.all() ARREGLO
 

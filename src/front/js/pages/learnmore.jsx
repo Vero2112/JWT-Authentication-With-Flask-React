@@ -16,10 +16,10 @@ useEffect (() => {
         navigate("/login");
         }
 
-      fetch(`${config.api.hostname}/api/task/${id}`, {
+      fetch(`${config.api.hostname}/api/task`, {
         method:"GET",
       headers: {
-        Authorization: `'Bearer ' ${token} `,
+        Authorization: `Bearer ${token}`,
             },
           
           })
@@ -52,7 +52,8 @@ useEffect (() => {
       <h1>LOGEADO!</h1>
       {tasks.map((task) => {
         return (<div key={task.id}>
-        <h3>{task.text}</h3><h3>{task.done}</h3></div>);
+        <h3>{task.text}</h3>
+        <h3>{task.done}</h3></div>);
       })}
             {/* <button
         type="submit"
