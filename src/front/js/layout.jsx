@@ -25,11 +25,11 @@ const Layout = () => {
         <ScrollToTop>
           {/* <Navbar /> */}
           <Routes>
-            {/* <Route exact path="/login" element={<Login />}></Route>
-            <Route exact path="/signup" element={<Signup />}></Route>
-            <Route exact path="/user/:id" element={<User />}></Route> */}
+            <Route exact path="/" element={<Home />}></Route>
+
             <Route exact path="/login" element={<Login />}></Route>
-            <Route exact path="/user/:id" element={<Learnmore />}></Route>
+            {/* <Route exact path="/user/:id" element={<Learnmore />}></Route> */}
+            <Route exact path="/private/:id" element={<Learnmore />}></Route>
             <Route exact path="/signup" element={<Signup />}></Route>
             <Route exact path="/single/:theid" element={<Single />}></Route>
             <Route element={<h1>Not found!</h1>}></Route>

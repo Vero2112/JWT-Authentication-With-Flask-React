@@ -132,7 +132,7 @@ def create_task():
     body = request.get_json()
 # text = body = request.get_json()    
     text = body["text"]
-
+    print(text)
     if text is None or len(text) < 1:
         raise APIException ("El texto tiene que contener más de un caracter", status_code=404)
 # Para obtener el identificador necesito llamar a mi funcion jwt_required (identity) que estoy pasando para encriptar

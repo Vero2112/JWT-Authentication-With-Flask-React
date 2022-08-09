@@ -41,8 +41,9 @@ export const Login = () => {
       localStorage.setItem("token", data.token)
       // data.user_id
       // navegar para /user/id
-      navigate(`/user/${data.user_id}`);
-      // navigate(`/learnmore}`);
+      console.log(data)
+      // navigate(`/user/${data.user_id}`);
+      navigate(`/private/${data.user_id}}`);
     })
     .catch((e) => {
       console.error(e);
