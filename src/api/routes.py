@@ -45,7 +45,7 @@ def signup():
     body = request.get_json()
     email=body["email"]
     password=body["password"]
-
+    name=body["name"]
 # if email is None or len(email)<4:
 #     raise APIException("el email tiene que tener un mínimo de 4 carácteres", status_code=404)
 
@@ -57,7 +57,7 @@ def signup():
     if aux_user:
         raise APIException("el usuario ya existe", status_code=404)
 
-    user = User(email=email, password=password, is_active=True)
+    user = User(email=email, name=name, password=password, is_active=True)
     db.session.add(user)
     db.session.commit()
     return jsonify("ok"), 201
@@ -67,7 +67,7 @@ def login():
     body = request.get_json()
     email=body["email"]
     password=body["password"]
-
+    name=body["name"]
     if email is None or len(email) < 4:
         raise APIException("el email tiene que tener un mínimo de 4 carácteres", status_code=404)
 
@@ -87,6 +87,7 @@ def login():
     # token
     data = {
         "email": user.email,
+        "name": user.name,
         "user_id": user.id
     }
     
@@ -100,6 +101,26 @@ def login():
 
     }
     return jsonify(res), 201
+
+# Obtener id de usuairo a partir de token jwt (requiere token)
+def obtener_usuario_id():
+    informacion_usuario = get_jwt_identity()
+    if informacion_usuario is None:
+        raise APIException('Se espera jwt token')
+    return informacion_usuario["user_id"]
+
+
+# Obtener informacion del perfil del usuario
+@api.route('/perfil', methods=['GET'])
+@jwt_required()
+def get_info_usuario():
+    user_id = obtener_usuario_id()
+    user = User.query.get(user_id)
+    info_user = user.serialize()
+    if user is None:
+        raise APIException("Usuario no encontrado")
+    return jsonify(info_user)
+
 
 # Obtener todas las tareas
 @api.route('/task', methods=['GET'])
@@ -146,4 +167,14 @@ def create_task():
     return jsonify(task.serialize()),201
     # return "create task"
 
-
+# Borrar Tarea
+@api.route('/task/<int:task_id>', methods=['DELETE'])
+@jwt_required()
+def delete_task(task_id):
+    task = Task.query.get(task_id) 
+    if task is None:
+        raise APIException("Tarea no encontrada", 404)
+        
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify(task.serialize())

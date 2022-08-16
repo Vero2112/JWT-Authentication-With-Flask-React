@@ -12,6 +12,7 @@ import { Learnmore } from "./pages/learnmore.jsx";
 import { Login } from "./pages/login.jsx";
 import { Navbar } from "./component/navbar.jsx";
 import { Footer } from "./component/footer.jsx";
+import { Private } from "./pages/private.jsx";
 
 //create your first component
 const Layout = () => {
@@ -28,8 +29,8 @@ const Layout = () => {
             <Route exact path="/" element={<Home />}></Route>
 
             <Route exact path="/login" element={<Login />}></Route>
-            {/* <Route exact path="/user/:id" element={<Learnmore />}></Route> */}
-            <Route exact path="/private/:id" element={<Learnmore />}></Route>
+            <Route exact path="/private/:id" element={<Private />}></Route>
+            {/* <Route exact path="/private/:id" element={<Learnmore />}></Route> */}
             <Route exact path="/signup" element={<Signup />}></Route>
             <Route exact path="/single/:theid" element={<Single />}></Route>
             <Route element={<h1>Not found!</h1>}></Route>

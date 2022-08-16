@@ -4,9 +4,12 @@ import { Navigate, useNavigate, Link } from "react-router-dom";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import config from "../config.js";
 import "../../styles/home.css";
+import { Modal } from "react-bootstrap";
+// import Modal from "react-bootstrap/Modal";
 
 export const Login = () => {
   const { store, actions } = useContext(Context);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
@@ -19,71 +22,90 @@ export const Login = () => {
   };
 
   const onSave = () => {
-    
+
     const body = JSON.stringify({
       email,
       password,
+      name,
 
     });
 
     fetch(`${config.api.hostname}/api/login`, {
-      method:"POST",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body,
     })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      console.log({data});
-      localStorage.setItem("token", data.token)
-      // data.user_id
-      // navegar para /user/id
-      console.log(data)
-      // navigate(`/user/${data.user_id}`);
-      navigate(`/private/${data.user_id}}`);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log({ data });
+        localStorage.setItem("token", data.token)
+        // data.user_id
+        // navegar para /user/id
+        console.log(data)
+        // navigate(`/user/${data.user_id}`);
+        navigate(`/private/${data.user_id}}`);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   const onSaveUser = () => {
-    
+
     const body = JSON.stringify({
       email,
       password,
+      name,
 
     });
 
     fetch(`${config.api.hostname}/api/signup`, {
-      method:"POST",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body,
     })
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      console.log({data});
-      // localStorage.setItem("token", data.token)
-      // data.user_id
-      // navegar para /user/id
-      navigate(`/signup`);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log({ data });
+        // localStorage.setItem("token", data.token)
+        // data.user_id
+        // navegar para /user/id
+        navigate(`/signup`);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   };
 
   return (
     <div className="text-center mt-5">
       <div className="mb-3 row">
-        <label for="staticEmail" className="col-1 col-form-label">
+
+        <label htmlFor="staticEmail" className="col-1 col-form-label">
+          Name
+        </label>
+        <div className="col-10 ">
+          <input
+            type="text"
+            className="form-control"
+            id="staticName"
+            onChange={(e) => updateText(e, setName)}
+            placeholder="Ingrese su nombre"
+            value={name}
+          ></input>
+        </div>
+      </div>
+
+      <div className="mb-3 row">
+        <label htmlFor="staticEmail" className="col-1 col-form-label">
           Email
         </label>
         <div className="col-10 ">
@@ -98,7 +120,7 @@ export const Login = () => {
         </div>
       </div>
       <div className="mb-3 row">
-        <label for="inputPassword" className="col-1 col-form-label">
+        <label htmlFor="inputPassword" className="col-1 col-form-label">
           Password
         </label>
         <div className="col-sm-10">
@@ -112,20 +134,20 @@ export const Login = () => {
           ></input>
         </div>
         <div>
-        
-			{/* <Link to="/learnmore"> */}
+
+          {/* <Link to="/learnmore"> */}
           <button
             type="submit"
             className="btn btn-primary mb-3 m-3"
-            onClick={onSave}            
+            onClick={onSave}
           >
-          Iniciar sesión
+            Iniciar sesión
           </button>
-        {/* </Link> */}
-        <Link to="/signup">
-          <button type="submit" className="btn btn-primary mb-3 m-3" onClick={onSaveUser}>
-            Crear usuario
-          </button></Link>
+          {/* </Link> */}
+          <Link to="/signup">
+            <button type="submit" className="btn btn-primary mb-3 m-3" onClick={onSaveUser}>
+              Crear usuario
+            </button></Link>
         </div>
       </div>
     </div>

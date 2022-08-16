@@ -1,36 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import config from "../config.js";
-import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
-import { obtenerTareas, crearTarea, modificarLista } from "../api.js";
+import { crearTarea, eliminarTarea } from "../api.js";
 
-export const Learnmore = () => {
-  const { store, actions } = useContext(Context);
-  // const [setTareas, setTareas] = useState("");
-  // const [tasks, setTasks] = useState([]);
+export const Private = () => {
+  const [datos, obtenerDatos] = useState({});
   const [tareas, cambiarTareas] = useState([]);
   const [nombreTarea, cambiarNombreTarea] = useState({
     text: "",
     done: false,
   });
   const navigate = useNavigate()
+  const token = localStorage.getItem(config.jwt.nameToken);
 
   // ELIMINAR TOKEN/CERRAR SESIÓN USUARIO
   const removeStorage = () => {
     localStorage.removeItem(config.jwt.nameToken);
   }
 
-  // VALIDACIÓN TOKEN
-  useEffect(() => {
-    const token = localStorage.getItem(config.jwt.nameToken);
-    if (!token) {
-      navigate("/login");
-    }
-
-
-    // OBTENER TAREAS USUARIO
+  // OBTENER TAREAS USUARIO
+  const obtenerTareas = () => {
     fetch(`${config.api.hostname}/api/task`, {
       method: "GET",
       headers: {
@@ -41,15 +32,9 @@ export const Learnmore = () => {
         return res.json();
       })
       .then((data) => {
-        // setLoading(true)
+
         console.log("soy la data: ", { data });
-        // setTasks(data)
-
         cambiarTareas(data)
-
-        // localStorage.setItem("token", data.token)
-        // data.user_id
-        // navegar para /user/id
 
       })
       .catch((e) => {
@@ -57,6 +42,37 @@ export const Learnmore = () => {
         navigate(`/login`);
 
       });
+  }
+
+  // VALIDACIÓN TOKEN
+  useEffect(() => {
+
+    if (!token) {
+      navigate("/login");
+    }
+
+    // OBTENER DATOS USUARIO
+    fetch(`${config.api.hostname}/api/perfil`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        console.log("soy los datos del usuario ", { data });
+        obtenerDatos(data);
+
+      })
+      .catch((e) => {
+        console.error(e);
+        navigate(`/`);
+      });
+
+    obtenerTareas();
 
   }, []);
 
@@ -72,70 +88,39 @@ export const Learnmore = () => {
   };
 
 
-  // MODIFICAR TAREAS USUARIO
-
-  const updateText = (e, setState) => {
-
-    const value = e.target.value;
-
-    console.log("soy el nuevo value:", value)
-    setState(value);
-  };
-
-
-  // ------------------
-  // Guardar tarea forma1
+  // Guardar tarea
   const guardartarea = (e) => {
-
     agregarTarea(nombreTarea);
-
   };
 
-
-  // ------------------
-  // Guardar tarea forma2
-  const guardarNombre = async (text) => {
-
-    // agregarTarea(nombreTarea);
-    const token = localStorage.getItem(config.jwt.nameToken);
-
-    // const body = JSON.stringify({
-    //   text,
-
-    // });
-
-    const resp = await fetch(`${config.api.hostname}/api/task`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        text,
-      }),
-    });
-
-    const data = await resp.json();
-
-    console.log("resp" + resp);
-    console.log("data" + data);
-
+  // Eliminar tarea con DELETE BOTON 
+  const eliminar = (task_id, index, nombredelaTarea) => {
+    eliminarTarea(task_id)
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => obtenerTareas());
   };
 
   return (
     <div>
-      <h1>LOGEADO!</h1>
+      <div className="d-flex justify-content-between mb-3 m-3">
+        <h3>Estás logeado! Bienvenid@ {datos.name}!</h3>
 
-      <Link to="/login">
-        <button
-          type="submit"
-          className="btn btn-danger mb-3 m-3"
-          onClick={removeStorage}
-        >
-          Cerrar sesión
-        </button>
-      </Link>
-      {/* ------------------ */}
+
+        <Link to="/login">
+          <button
+            type="submit"
+            className="btn btn-danger text-end"
+            onClick={removeStorage}
+          >
+            Cerrar sesión
+          </button>
+        </Link></div>
+
       <div className="pt-3 row d-flex justify-content-center align-items-center h-100">
         <div className="col-5">
           <div className="card border border border-white">
@@ -152,39 +137,34 @@ export const Learnmore = () => {
                       done: false,
                     });
                   }}
-
-                  // onChange={(e) => updateText(e, setTasks)}
-
                   placeholder="Escribe la tarea"
-                  // value={tasks}
                   value={nombreTarea.text}
                 />
                 <button className="btn btn-success" onClick={guardartarea} type="submit">Guardar</button>
-                <button className="btn btn-success" onClick={guardarNombre} type="submit">Guardar1</button>
+
               </div>
               <div className="row d-flex justify-content-center align-items-center">
-                {/* {tareas.map((nombreTarea, index) => ( */}
-                {tareas.map((task) => {
+
+                {tareas.map((task, index) => {
                   return (
                     <div
                       className="d-flex justify-content-between border-bottom w-75 mt-2"
-                      // key={index}
-                      key={task.id}
+                      key={index}
                     >
-                      {/* {nombreTarea.label} */}
                       <h3>{task.text}</h3>
 
+
                       <button
-                        className="btn btn-danger"
-                      // onClick={() =>
-                      // 	eliminarTarea(index)
-                      // }
+                        className="btn btn-warning "
+                        onClick={() =>
+                          eliminar(task.id, index)
+                        }
                       >
                         X
                       </button>
                     </div>)
                 })}
-                {/* ))} */}
+
               </div>
             </div>
           </div>
@@ -192,7 +172,7 @@ export const Learnmore = () => {
       </div>
 
 
-      {/* ------------------ */}
+
     </div>
   );
 };
