@@ -9,7 +9,7 @@ export const Signup = () => {
 
   return (
     <div className="text-center mt-5">
-      <h1>Created User! Back home and Loggin! </h1>
+      <h1>Usuario creado! Vuelve e inicia sesión para acceder a tu cuenta </h1>
       <Link to="/login">
         <button
           type="submit"

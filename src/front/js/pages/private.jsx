@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import { crearTarea, eliminarTarea } from "../api.js";
+import "../../styles/private.css";
 
 export const Private = () => {
   const [datos, obtenerDatos] = useState({});
@@ -39,7 +40,7 @@ export const Private = () => {
       })
       .catch((e) => {
         console.error(e);
-        navigate(`/login`);
+        navigate(`/`);
 
       });
   }
@@ -48,7 +49,7 @@ export const Private = () => {
   useEffect(() => {
 
     if (!token) {
-      navigate("/login");
+      navigate("/");
     }
 
     // OBTENER DATOS USUARIO
@@ -106,7 +107,7 @@ export const Private = () => {
   };
 
   return (
-    <div>
+    <div className="container-private">
       <div className="d-flex justify-content-between mb-3 m-3">
         <h3>Estás logeado! Bienvenid@ {datos.name}!</h3>
 
@@ -138,8 +139,10 @@ export const Private = () => {
                     });
                   }}
                   placeholder="Escribe la tarea"
+                  className="form-control"
                   value={nombreTarea.text}
                 />
+
                 <button className="btn btn-success" onClick={guardartarea} type="submit">Guardar</button>
 
               </div>
@@ -151,11 +154,17 @@ export const Private = () => {
                       className="d-flex justify-content-between border-bottom w-75 mt-2"
                       key={index}
                     >
-                      <h3>{task.text}</h3>
+                      {/* <h3>{task.text}</h3> */}
 
+                      <input
+                        type="text"
+                        className="form-control me-1"
+                        value={task.text}
+                        readOnly
+                      />
 
                       <button
-                        className="btn btn-warning "
+                        className="btn btn-danger ms-1"
                         onClick={() =>
                           eliminar(task.id, index)
                         }

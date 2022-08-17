@@ -1,0 +1,9 @@
+.container-private {
+  min-height: 85vh;
+  margin-bottom: 50px;
+}
+
+.container-login {
+  min-height: 82vh;
+  margin-bottom: 50px;
+}

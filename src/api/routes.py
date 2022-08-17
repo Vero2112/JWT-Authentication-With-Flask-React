@@ -39,6 +39,7 @@ def learnmore():
 
     return jsonify(response_body), 200
 
+# registrar usuario
 @api.route('/signup', methods=['POST'])
 def signup():
 
@@ -46,21 +47,25 @@ def signup():
     email=body["email"]
     password=body["password"]
     name=body["name"]
-# if email is None or len(email)<4:
-#     raise APIException("el email tiene que tener un mínimo de 4 carácteres", status_code=404)
 
-# if password is None or len(password)<6:
-#     raise APIException("la contraseña tiene que tener un mínimo de 4 carácteres", status_code=404)
-   
+    if name is None or len(name) < 1:
+        raise APIException("Has de añadir un nombre", status_code=404)      
+
+    if email is None or len(email) < 8:
+        raise APIException("el email tiene que tener un mínimo de 8 carácteres", status_code=404)  
+
+    if password is None or len(password) < 3:
+        raise APIException("la contraseña tiene que tener un mínimo de 3 carácteres", status_code=404)
+
     # verificar usuario
     aux_user = User.query.filter_by(email=email).first()
     if aux_user:
-        raise APIException("el usuario ya existe", status_code=404)
+        raise APIException("El usuario ya existe", status_code=404)
 
     user = User(email=email, name=name, password=password, is_active=True)
     db.session.add(user)
     db.session.commit()
-    return jsonify("ok"), 201
+    return jsonify({'message': 'Usuario creado exitosamente!', 'data': user.serialize()}), 201
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -68,12 +73,10 @@ def login():
     email=body["email"]
     password=body["password"]
     name=body["name"]
-    if email is None or len(email) < 4:
-        raise APIException("el email tiene que tener un mínimo de 4 carácteres", status_code=404)
 
-    if password is None or len(password) < 2:
-        raise APIException("la contraseña tiene que tener un mínimo de 2 carácteres", status_code=404)
-   
+    # if name is None or len(name) < 1:
+    #     raise APIException("Has de añadir un nombre", status_code=404)
+
     user = User.query.filter_by(email=email).first()
 
     if user is None:
@@ -100,7 +103,7 @@ def login():
         "user_id": user.id
 
     }
-    return jsonify(res), 201
+    return jsonify({'message': 'Usuario logeado exitosamente!', 'token': token, 'usuario_id': user.id, 'data': user.serialize()}), 201
 
 # Obtener id de usuairo a partir de token jwt (requiere token)
 def obtener_usuario_id():
