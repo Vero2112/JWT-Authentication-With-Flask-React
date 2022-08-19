@@ -5,7 +5,7 @@ import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import { crearTarea, eliminarTarea } from "../api.js";
 import "../../styles/private.css";
-
+import { Navbar } from "../component/navbar.jsx";
 export const Private = () => {
   const [datos, obtenerDatos] = useState({});
   const [tareas, cambiarTareas] = useState([]);
@@ -90,11 +90,13 @@ export const Private = () => {
 
 
   // Guardar tarea
-  const guardartarea = (e) => {
-    agregarTarea(nombreTarea);
+  const guardartarea = () => {
+    if (nombreTarea && nombreTarea.text.length > 0 )
+    {agregarTarea(nombreTarea)}
+
   };
 
-  // Eliminar tarea con DELETE BOTON 
+  // Eliminar tarea
   const eliminar = (task_id, index, nombredelaTarea) => {
     eliminarTarea(task_id)
       .then((res) => {
@@ -107,81 +109,82 @@ export const Private = () => {
   };
 
   return (
-    <div className="container-private">
-      <div className="d-flex justify-content-between mb-3 m-3">
-        <h3>Estás logeado! Bienvenid@ {datos.name}!</h3>
+    <div>
+      <Navbar />
+      <div className="container-private">
+        {/* <div className="d-flex justify-content-between mb-3 m-3">
+          <h3>Estás logeado! Bienvenid@ {datos.name}!</h3>
 
 
-        <Link to="/login">
-          <button
-            type="submit"
-            className="btn btn-danger text-end"
-            onClick={removeStorage}
-          >
-            Cerrar sesión
-          </button>
-        </Link></div>
+          <Link to="/login">
+            <button
+              type="submit"
+              className="btn btn-danger text-end"
+              onClick={removeStorage}
+            >
+              Cerrar sesión
+            </button>
+          </Link>
+        </div> */}
 
-      <div className="pt-3 row d-flex justify-content-center align-items-center h-100">
-        <div className="col-5">
-          <div className="card border border border-white">
-            <div className="card-body border border border-white">
-              <h1 className="d-flex justify-content-center">
-                Tareas pendientes
-              </h1>
-              <div className="d-flex justify-content-center">
-                <input
-                  type="text"
-                  onChange={(e) => {
-                    cambiarNombreTarea({
-                      text: e.target.value,
-                      done: false,
-                    });
-                  }}
-                  placeholder="Escribe la tarea"
-                  className="form-control"
-                  value={nombreTarea.text}
-                />
+        <div className="pt-3 row d-flex justify-content-center align-items-center h-100">
+          <div className="col-5">
+            <div className="card border border border-white">
+              <div className="card-body border border border-white">
+                <h1 className="d-flex justify-content-center">
+                  To-Do List
+                </h1>
+                <div className="d-flex justify-content-center">
+                  <input
+                    type="text"
+                    onChange={(e) => {
+                      cambiarNombreTarea({
+                        text: e.target.value,
+                        done: false,
+                      });
+                    }}
+                    placeholder="Escribe la tarea"
+                    className="form-control"
+                    value={nombreTarea.text}
+                  />
 
-                <button className="btn btn-success" onClick={guardartarea} type="submit">Guardar</button>
+                  <button className="btn btn-success ms-2" onClick={guardartarea} type="submit">Guardar</button>
 
-              </div>
-              <div className="row d-flex justify-content-center align-items-center">
+                </div>
+                <div className="row d-flex justify-content-center align-items-center">
 
-                {tareas.map((task, index) => {
-                  return (
-                    <div
-                      className="d-flex justify-content-between border-bottom w-75 mt-2"
-                      key={index}
-                    >
-                      {/* <h3>{task.text}</h3> */}
-
-                      <input
-                        type="text"
-                        className="form-control me-1"
-                        value={task.text}
-                        readOnly
-                      />
-
-                      <button
-                        className="btn btn-danger ms-1"
-                        onClick={() =>
-                          eliminar(task.id, index)
-                        }
+                  {tareas.map((task, index) => {
+                    return (
+                      <div
+                        className="d-flex justify-content-between w-75 mt-2"
+                        key={index}
                       >
-                        X
-                      </button>
-                    </div>)
-                })}
+                        {/* <h3>{task.text}</h3> */}
 
+                        <input
+                          type="text"
+                          className="form-control me-1"
+                          value={task.text}
+                          readOnly
+                        />
+
+                        <button
+                          className="btn btn-danger ms-1"
+                          onClick={() =>
+                            eliminar(task.id, index)
+                          }
+                        >
+                          X
+                        </button>
+                      </div>)
+                  })}
+
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };

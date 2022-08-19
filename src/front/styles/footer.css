@@ -1,0 +1,12 @@
+.footer {
+    
+    /* display: flex; */
+    /* align-items: flex-end; */
+    /* text-align: center;
+    vertical-align: bottom; */
+    /* height: 5%; */
+    width: 100%; 
+    bottom: 0px;
+    position: relative;
+    /* margin-top: 50px; */
+  }

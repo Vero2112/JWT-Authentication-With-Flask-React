@@ -77,13 +77,17 @@ def login():
     # if name is None or len(name) < 1:
     #     raise APIException("Has de añadir un nombre", status_code=404)
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=email, name=name).first()
+
+    # if user.name != name:
+    #     raise APIException("Nombre o email incorrecto", status_code=404)
+
 
     if user is None:
-        raise APIException("el usuario no existe", status_code=404)
+        raise APIException("Nombre o email incorrecto", status_code=404)
 
     if user.password != password:
-        raise APIException("Password o email incorrecto", status_code=404)
+        raise APIException("Password incorrecto", status_code=404)
 
 # me va a codificar el diccionario (todo lo compatible con json), sólo me va almacenar la data (email)
     

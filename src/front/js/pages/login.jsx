@@ -72,7 +72,7 @@ export const Login = () => {
       
       // if (res.status == 201) {
       //   modalManager(json.message, true);
-      //   // navigate(`/private/${data.user_id}`);
+        
       // } else if (res.status !== 201) {
       //   modalManager(json.message, false);
       // }
@@ -96,32 +96,38 @@ export const Login = () => {
       body,
     })
       // .then((res) => {
+      //   console.log(res.status);
       //   return res.json();
       // })
       // .then((data) => {
-      //   console.log({ data });
-      //   // localStorage.setItem("token", data.token)
-      //   // data.user_id
-      //   // navegar para /user/id
-
-      //   // navigate(`/signup`);
+      //   console.log(data);
+      //   modalManager(data.message, true);
+        
+      
       // })
       // .catch((e) => {
       //   console.error(e);
       // });
 
-      const json = await res.json();
-      
-      
-      if (res.status == 201) {
-        modalManager(json.message, true);
-      } else if (res.status !== 201) {
-        modalManager(json.message, false);
+      // const json = await res.json();
+         
+      // if (res.status == 201) {
+      //   modalManager(json.message, true);
+      // } else if (res.status !== 201) {
+      //   modalManager(json.message, false);
+      // }
+      const data = await res.json();
+      if (data.message === "Usuario creado exitosamente!") {
+        modalManager(data.message, true); console.log("soy el modal true: ");
+      } else {
+        modalManager(data.message, false);console.log("soy el modal false: ");
       }
+
+      
   };
 
   return (
-    <div className="text-center mt-5 container-login">
+    <div className="text-center mt-5 container-private" id="container-login">
       <div className="mb-3 row">
 
         <label htmlFor="staticEmail" className="col-1 col-form-label">
@@ -227,15 +233,18 @@ export const Login = () => {
           <Modal.Footer>
             <Button
               className="btn btn-primary"
-              // variant="btn btn-primary"
+              // onClick={() => {  
+              //   handleClose();
+              //   navigate("/signup");
+              // }}
+
               onClick={() => {
                 if (navegar) {
-                  navigate("/signup");
+                  navigate("/private");
                 }  else {
                   handleClose();
                 }
               }}
-              // onClick={handleClose}
             >
               OK
             </Button>
