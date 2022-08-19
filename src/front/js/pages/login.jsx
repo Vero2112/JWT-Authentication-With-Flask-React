@@ -48,8 +48,8 @@ export const Login = () => {
 
     const data = await resp.json();
     console.log("data: ", data)
-    if (data.token !== undefined) {     
-      localStorage.setItem("token", data.token)    
+    if (data.token !== undefined) {
+      localStorage.setItem("token", data.token)
       navigate(`/private/${data.user_id}`);
     } else {
       modalManager(data.message, false);
@@ -58,35 +58,41 @@ export const Login = () => {
 
   return (
     <div className="text-center mt-5 container-private" id="container-login">
-      <div className="mb-3 row">
-        <label htmlFor="staticEmail" className="col-1 col-form-label">
-          Email
-        </label>
-        <div className="col-10 ">
-          <input
-            type="text"
-            className="form-control"
-            id="staticEmail"
-            onChange={(e) => updateText(e, setEmail)}
-            placeholder="Ingrese su email"
-            value={email}
-          ></input>
+      <div className="position-absolute top-50 start-50 translate-middle">
+        <div className="mb-3 d-flex justify-content-center text-start">
+          <div className="col-4">
+            <label htmlFor="staticEmail" className="col-form-label ">
+              Email
+            </label></div>
+          <div className="col-8" >
+            <input
+              type="text"
+              className="form-control"
+              id="staticEmail"
+              onChange={(e) => updateText(e, setEmail)}
+              placeholder="Ingrese su email"
+              value={email}
+            ></input>
+          </div>
         </div>
-      </div>
-      <div className="mb-3 row">
-        <label htmlFor="inputPassword" className="col-1 col-form-label">
-          Password
-        </label>
-        <div className="col-sm-10">
-          <input
-            type="password"
-            className="form-control"
-            id="inputPassword"
-            onChange={(e) => updateText(e, setPassword)}
-            placeholder="Ingrese su contraseña"
-            value={password}
-          ></input>
+        <div className="mb-3 d-flex justify-content-center text-start">
+          <div className="col-4">
+            <label htmlFor="inputPassword" className="col-form-label ">
+              Password
+            </label></div>
+          <div className="col-8">
+            <input
+              type="password"
+              className="form-control"
+              id="inputPassword"
+              onChange={(e) => updateText(e, setPassword)}
+              placeholder="Ingrese su contraseña"
+              value={password}
+            ></input>
+          </div>
         </div>
+
+
         <div>
           <button
             type="submit"
@@ -101,13 +107,14 @@ export const Login = () => {
             </button>
           </Link>
         </div>
-      </div>
 
-      <Link to="/">
-        <button type="submit" className="btn btn-primary" >
-          Ir a la página de inicio
-        </button>
-      </Link>
+        <Link to="/">
+          <button type="submit" className="btn btn-primary" >
+            Ir a la página de inicio
+          </button>
+        </Link>
+      </div>
+      
       <Modal
         show={show}
         onHide={handleClose}

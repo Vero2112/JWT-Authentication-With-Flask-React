@@ -59,13 +59,14 @@ export const Signup = () => {
         <div className="text-center mt-5 container-private " id="container-login">
             <div className="position-absolute top-50 start-50 translate-middle">
                 <div className="mb-3 d-flex justify-content-center text-start">
-                    <label htmlFor="staticName" className="col-form-label me-2 text-start">
+                    <div className="col-4"> 
+                    <label htmlFor="staticName" className="col-form-label text-start">
                         Name
-                    </label>
-                    <div >
+                    </label></div>
+                    <div className="col-8" >
                         <input
                             type="text"
-                            className="form-control ms-2 w-100 "
+                            className="form-control"
                             id="staticName"
                             onChange={(e) => updateText(e, setName)}
                             placeholder="Ingrese su nombre"
@@ -74,14 +75,15 @@ export const Signup = () => {
                     </div>
                 </div>
 
-                <div className="mb-3 d-flex justify-content-center">
-                    <label htmlFor="staticEmail" className="col-form-label me-3">
+                <div className="mb-3 d-flex justify-content-center text-start">
+                    <div className="col-4">
+                    <label htmlFor="staticEmail" className="col-form-label ">
                         Email
-                    </label>
-                    <div >
+                    </label></div>
+                    <div className="col-8" >
                         <input
                             type="text"
-                            className="form-control ms-2"
+                            className="form-control"
                             id="staticEmail"
                             onChange={(e) => updateText(e, setEmail)}
                             placeholder="Ingrese su email"
@@ -90,13 +92,14 @@ export const Signup = () => {
                     </div>
                 </div>
                 <div className="mb-3 d-flex justify-content-center text-start">
+                    <div className="col-4"> 
                     <label htmlFor="inputPassword" className="col-form-label ">
                         Password
-                    </label>
-                    <div>
+                    </label></div>
+                    <div className="col-8">
                         <input
                             type="password"
-                            className="form-control w-100 ms-5"
+                            className="form-control"
                             id="inputPassword"
                             onChange={(e) => updateText(e, setPassword)}
                             placeholder="Ingrese su contraseña"
