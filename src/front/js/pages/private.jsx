@@ -26,6 +26,7 @@ export const Private = () => {
     fetch(`${config.api.hostname}/api/task`, {
       method: "GET",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
@@ -64,7 +65,7 @@ export const Private = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("soy los datos del usuario ", { data });
+        // console.log("soy los datos del usuario ", { data });
         obtenerDatos(data);
 
       })
@@ -79,22 +80,22 @@ export const Private = () => {
 
 
   // AÑADIR TAREAS
-  const agregarTarea = (nombredelaTarea) => {
+  const agregarTarea = () => {
     // const auxTarea = tareas.concat(nombredelaTarea);
-    const auxTarea = [...tareas, nombredelaTarea];
+    if (nombreTarea && nombreTarea.text.length > 0) {
 
-    cambiarTareas(auxTarea);
-    cambiarNombreTarea({ text: "" });
-    crearTarea(nombredelaTarea.text);
+      crearTarea(nombreTarea.text)
+        .then((res) => {
+          return res.json();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => obtenerTareas());
+
+    }
   };
 
-
-  // Guardar tarea
-  const guardartarea = () => {
-    if (nombreTarea && nombreTarea.text.length > 0 )
-    {agregarTarea(nombreTarea)}
-
-  };
 
   // Eliminar tarea
   const eliminar = (task_id, index, nombredelaTarea) => {
@@ -112,25 +113,11 @@ export const Private = () => {
     <div>
       <Navbar />
       <div className="container-private">
-        {/* <div className="d-flex justify-content-between mb-3 m-3">
-          <h3>Estás logeado! Bienvenid@ {datos.name}!</h3>
 
-
-          <Link to="/login">
-            <button
-              type="submit"
-              className="btn btn-danger text-end"
-              onClick={removeStorage}
-            >
-              Cerrar sesión
-            </button>
-          </Link>
-        </div> */}
-
-        <div className="pt-3 row d-flex justify-content-center align-items-center h-100">
+        <div className="pt-3 row d-flex justify-content-center align-items-center h-100" id="fondo">
           <div className="col-5">
-            <div className="card border border border-white">
-              <div className="card-body border border border-white">
+            <div className="card border border border-white" id="fondo">
+              <div className="card-body border border border-white" id="fondo">
                 <h1 className="d-flex justify-content-center">
                   To-Do List
                 </h1>
@@ -148,7 +135,7 @@ export const Private = () => {
                     value={nombreTarea.text}
                   />
 
-                  <button className="btn btn-success ms-2" onClick={guardartarea} type="submit">Guardar</button>
+                  <button className="btn btn-success ms-2" onClick={agregarTarea} type="submit">Guardar</button>
 
                 </div>
                 <div className="row d-flex justify-content-center align-items-center">
@@ -159,8 +146,6 @@ export const Private = () => {
                         className="d-flex justify-content-between w-75 mt-2"
                         key={index}
                       >
-                        {/* <h3>{task.text}</h3> */}
-
                         <input
                           type="text"
                           className="form-control me-1"

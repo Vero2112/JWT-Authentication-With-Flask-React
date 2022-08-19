@@ -52,10 +52,10 @@ def signup():
         raise APIException("Has de añadir un nombre", status_code=404)      
 
     if email is None or len(email) < 8:
-        raise APIException("el email tiene que tener un mínimo de 8 carácteres", status_code=404)  
+        raise APIException("El email tiene que tener un mínimo de 8 caracteres", status_code=404)  
 
     if password is None or len(password) < 3:
-        raise APIException("la contraseña tiene que tener un mínimo de 3 carácteres", status_code=404)
+        raise APIException("La contraseña tiene que tener un mínimo de 3 caracteres", status_code=404)
 
     # verificar usuario
     aux_user = User.query.filter_by(email=email).first()
@@ -65,26 +65,26 @@ def signup():
     user = User(email=email, name=name, password=password, is_active=True)
     db.session.add(user)
     db.session.commit()
-    return jsonify({'message': 'Usuario creado exitosamente!', 'data': user.serialize()}), 201
+    return jsonify({'message': 'Usuario creado con éxito!', 'data': user.serialize()}), 201
 
 @api.route('/login', methods=['POST'])
 def login():
     body = request.get_json()
     email=body["email"]
     password=body["password"]
-    name=body["name"]
+   
 
     # if name is None or len(name) < 1:
     #     raise APIException("Has de añadir un nombre", status_code=404)
 
-    user = User.query.filter_by(email=email, name=name).first()
+    user = User.query.filter_by(email=email).first()
 
     # if user.name != name:
     #     raise APIException("Nombre o email incorrecto", status_code=404)
 
 
     if user is None:
-        raise APIException("Nombre o email incorrecto", status_code=404)
+        raise APIException("Email incorrecto", status_code=404)
 
     if user.password != password:
         raise APIException("Password incorrecto", status_code=404)
@@ -94,7 +94,6 @@ def login():
     # token
     data = {
         "email": user.email,
-        "name": user.name,
         "user_id": user.id
     }
     
