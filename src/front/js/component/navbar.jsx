@@ -33,7 +33,7 @@ export const Navbar = () => {
 				return res.json();
 			})
 			.then((data) => {
-				console.log("soy los datos del usuario ", { data });
+			
 				obtenerDatos(data);
 
 			})
@@ -42,17 +42,15 @@ export const Navbar = () => {
 				navigate(`/`);
 			});
 
-		// obtenerTareas();
-
+		
 	}, []);
 
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container-fluid">
 				
-					{/* <div> */}
-					<span className="navbar-brand mb-0 h1">Estás logeado! Bienvenid@ {datos.name}!</span>
-					{/* </div> */}
+				<span className="navbar-brand mb-0 h1">Estás logeado! Bienvenid@ {datos.name}!</span>
+					
 					<div className="ml-auto" >
 						<Link to="/login">
 							<button
@@ -68,22 +66,6 @@ export const Navbar = () => {
 			</div>
 		</nav>
 	);
-
-// return (
-// 	<nav className="navbar navbar-light bg-light">
-// 		<div className="container">
-// 			<Link to="/">
-// 				<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-// 			</Link>
-// 			<div className="ml-auto">
-// 				<Link to="/demo">
-// 					<button className="btn btn-primary">Check the Context in action</button>
-// 				</Link>
-// 			</div>
-// 		</div>
-// 	</nav>
-// );	
-
 
 };
 
