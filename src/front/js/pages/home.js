@@ -9,7 +9,8 @@ export const Home = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    <div className="container-private">
+    
+    <div >
       <h1>Home</h1>
      
       <Link to="/login">
@@ -24,5 +25,6 @@ export const Home = () => {
         </button>
       </Link>
     </div>
+  
   );
 };
