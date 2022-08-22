@@ -89,6 +89,7 @@ export const Private = () => {
         .finally(() => obtenerTareas());
 
     }
+    nombreTarea.text = "";
   };
 
 
@@ -129,6 +130,7 @@ export const Private = () => {
                     className="form-control"
                     value={nombreTarea.text}
                     variant="bordeinput"
+                    onKeyDown={(e) => e.key === "Enter" && agregarTarea()}
                   />
 
                   <button className="btn btn-secondary ms-2 " onClick={agregarTarea} type="submit">Guardar</button>
