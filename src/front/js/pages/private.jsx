@@ -16,10 +16,6 @@ export const Private = () => {
   const navigate = useNavigate()
   const token = localStorage.getItem(config.jwt.nameToken);
 
-  // ELIMINAR TOKEN/CERRAR SESIÓN USUARIO
-  const removeStorage = () => {
-    localStorage.removeItem(config.jwt.nameToken);
-  }
 
   // OBTENER TAREAS USUARIO
   const obtenerTareas = () => {
@@ -35,7 +31,6 @@ export const Private = () => {
       })
       .then((data) => {
 
-        console.log("soy la data: ", { data });
         cambiarTareas(data)
 
       })
@@ -98,7 +93,7 @@ export const Private = () => {
 
 
   // Eliminar tarea
-  const eliminar = (task_id, index, nombredelaTarea) => {
+  const eliminar = (task_id) => {
     eliminarTarea(task_id)
       .then((res) => {
         return res.json();
@@ -114,12 +109,12 @@ export const Private = () => {
       <Navbar />
       <div className="container-private">
 
-        <div className="pt-3 row d-flex justify-content-center align-items-center h-100" id="fondo">
+        <div className="pt-3 row d-flex justify-content-center align-items-center h-100">
           <div className="col-5">
-            <div className="card border border border-white" id="fondo">
-              <div className="card-body border border border-white" id="fondo">
+            
+              <div className="p-3 mt-4" id="border">
                 <h1 className="d-flex justify-content-center">
-                  To-Do List
+                 - To Do List -
                 </h1>
                 <div className="d-flex justify-content-center">
                   <input
@@ -133,9 +128,10 @@ export const Private = () => {
                     placeholder="Escribe la tarea"
                     className="form-control"
                     value={nombreTarea.text}
+                    variant="bordeinput"
                   />
 
-                  <button className="btn btn-success ms-2" onClick={agregarTarea} type="submit">Guardar</button>
+                  <button className="btn btn-secondary ms-2 " onClick={agregarTarea} type="submit">Guardar</button>
 
                 </div>
                 <div className="row d-flex justify-content-center align-items-center">
@@ -148,8 +144,9 @@ export const Private = () => {
                       >
                         <input
                           type="text"
-                          className="form-control me-1"
+                          className="form-control me-1 bg-white"
                           value={task.text}
+                          variant="bordeinput2"
                           readOnly
                         />
 
@@ -165,7 +162,7 @@ export const Private = () => {
                   })}
 
                 </div>
-              </div>
+              
             </div>
           </div>
         </div>

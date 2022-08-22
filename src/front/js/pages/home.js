@@ -9,22 +9,40 @@ export const Home = () => {
   const { store, actions } = useContext(Context);
 
   return (
-    
-    <div >
-      <h1>Home</h1>
-     
-      <Link to="/login">
-        <button type="submit" className="btn btn-primary mb-3 m-3">
-          Ir a inicio de sesión
-        </button>
-      </Link>
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/signup"
+                >
+                  Registro de usuario
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  aria-current="page"
+                  href="/login"
+                >
+                  Inicio de sesión
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-      <Link to="/signup">
-        <button type="submit" className="btn btn-primary mb-3 m-3">
-          Ir a registro de usuario
-        </button>
-      </Link>
+      <div className="container-private">
+        <div className="position-absolute top-50 start-50 translate-middle">
+          <h1> Autentificación JWT con Flask & React.js</h1>
+          
+        </div>
+      </div>
     </div>
-  
   );
 };
