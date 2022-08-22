@@ -1,17 +1,30 @@
 .container-private {
-  min-height: 78vh;
-  margin-bottom: 50px;
-}
-
-/* #container-login {
   min-height: 75vh;
   margin-bottom: 50px;
-}   */
-
-/* #fondo {
-  background-color: bisque;
 }
 
-body {
+#container-login {
+  min-height: 70vh;
+  margin-bottom: 50px;
+}  
+
+#border {
+  background-color: rgba(211, 211, 211, 0.175);
+  border-radius: 15px;
+  /* border-color: red; */
+  border-width: 15px;
+  
+} 
+
+#bordeinput {
+  background-color: rgba(211, 211, 211, 0.175);
+  border-color: rgba(211, 211, 211, 0.175);
+}
+
+#bordeinput2 {
+  background-color: rgba(211, 211, 211, 0.175);
+  border-color: rgba(211, 211, 211, 0.175);
+}
+/* body {
   background-color: bisque;
-} */
+}  */

@@ -30,7 +30,7 @@ const Layout = () => {
 
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/private/:id" element={<Private />}></Route>
-            {/* <Route exact path="/private/:id" element={<Learnmore />}></Route> */}
+            {/* <Route exact path="/learnmore/:id" element={<Learnmore />}></Route> */}
             <Route exact path="/signup" element={<Signup />}></Route>
             <Route exact path="/single/:theid" element={<Single />}></Route>
             <Route element={<h1>Not found!</h1>}></Route>
